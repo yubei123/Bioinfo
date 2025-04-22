@@ -1,0 +1,30 @@
+## Dockerfile
+# 指定下载 python 版本
+FROM python:3.10.12
+
+RUN ln -sf /usr/local/bin/python3.10 /usr/bin/python3
+
+# 构建者的基本信息
+MAINTAINER yubei
+
+# 指定工作目录
+WORKDIR /work/WebApp/Biotech
+
+COPY requirements.txt g.config.py .
+
+# 在容器内部执行的命令
+# 注意：gunicorn 与 gevent 存在版本依赖关系，此外 gevent 依赖的 greenlet 也会有版本问题，尽量使用最新版本即可
+RUN pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple --no-cache-dir
+
+# 指定暴露端口
+EXPOSE 8080
+
+# 容器启动的时候执行的命令 flask run（使用内置的开发服务器启动）
+# 使用 Gunicorn 服务器启动 Flask 应用
+CMD ["gunicorn", "-c", "g.config.py", "app:app"]
+or 
+CMD ["celery", "-A", "app.tasks", "worker", "-c", "4", "--loglevel=INFO","--logfile=celery.log", "--heartbeat-interval=10"]
+
+## 创建 docker 镜像
+docker build -t gunicorn:v1 .
+docker build -t celery:v1 .
