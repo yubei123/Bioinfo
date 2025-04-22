@@ -1,0 +1,14 @@
+1.拉取mysql镜像
+docker pull mysql
+2.创建mysql容器
+docker run -d -e TZ=Asia/Shanghai --restart always --name mysql -v /work/Config/mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=beitai123 -p 3305:3306 mysql
+
+1.拉取nginx镜像
+docker pull nginx
+2.创建nginx容器
+docker run -d -e TZ=Asia/Shanghai -p 80:80 --restart always --name nginx -v /work/Config/nginx/nginx.conf:/etc/nginx/nginx.conf -v /work/Config/nginx/conf.d:/etc/nginx/conf.d -v /work/Config/nginx/log:/var/log/nginx -v /work/Config/nginx/html:/usr/share/nginx/html nginx
+
+1.拉取redis镜像
+docker pull redis
+2.创建redis容器
+docker run -d -e TZ=Asia/Shanghai --name redis -p 6379:6379 --restart always -v /work/Config/redis:/data redis
