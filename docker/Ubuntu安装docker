@@ -1,0 +1,25 @@
+1.安装依赖工具
+sudo apt update
+sudo apt install -y ca-certificates curl gnupg lsb-release
+2.添加 Docker 官方 GPG 密钥
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+3.设置 Docker 软件源
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+4.安装 Docker Engine
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+5.修改 Docker 镜像源
+sudo nano /etc/docker/daemon.json
+{
+  "registry-mirrors": [
+    "https://mirror.ccs.tencentyun.com",
+    "https://hub-mirror.c.163.com",
+    "https://registry.docker-cn.com"
+  ]
+}
+6.重启 Docker 使配置生效
+sudo systemctl daemon-reload
+sudo systemctl restart docker
