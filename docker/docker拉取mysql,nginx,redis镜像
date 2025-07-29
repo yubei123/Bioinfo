@@ -6,6 +6,8 @@ docker run -d -e TZ=Asia/Shanghai --restart always --name mysql -v /work/Config/
 1.拉取nginx镜像
 docker pull nginx
 2.创建nginx容器
+touch /work/Config/nginx/nginx.conf
+mkdir -p ~/nginx/conf.d
 docker run --rm nginx cat /etc/nginx/nginx.conf > ~/nginx/nginx.conf
 docker run --rm nginx cat /etc/nginx/conf.d/default.conf > ~/nginx/conf.d/default.conf
 docker run -d -e TZ=Asia/Shanghai -p 80:80 --restart always --name nginx -v /work/Config/nginx/nginx.conf:/etc/nginx/nginx.conf -v /work/Config/nginx/conf.d:/etc/nginx/conf.d -v /work/Config/nginx/log:/var/log/nginx -v /work/Config/nginx/html:/usr/share/nginx/html nginx
