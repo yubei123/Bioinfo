@@ -23,3 +23,6 @@ sudo nano /etc/docker/daemon.json
 6.重启 Docker 使配置生效
 sudo systemctl daemon-reload
 sudo systemctl restart docker
+7.添加用户至docker用户组
+sudo usermod -aG docker root123
+newgrp docker
